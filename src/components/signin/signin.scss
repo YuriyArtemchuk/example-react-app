@@ -1,0 +1,86 @@
+.signin-section {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: 18px;
+
+  .image-div {
+    text-align: center;
+    margin-top: 30px;
+
+    img {
+      width: 160px;
+      background: whitesmoke;
+      border-radius: 80px;
+      box-shadow: 0px 0px 15px rgb(47, 255, 252);
+      margin-top: 20px;
+
+      &:hover {
+        box-shadow: 0px 0px 15px rgb(210, 255, 47);
+      }
+    }
+  }
+
+  .book-form {
+    border: 1px solid silver;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 400px;
+    background: whitesmoke;
+    box-shadow: 0px 0px 15px rgb(47, 255, 252);
+    text-align: left;
+    margin-bottom: 50px;
+
+    &:hover {
+      box-shadow: 0px 0px 15px rgb(210, 255, 47);
+    }
+
+    input {
+      margin-bottom: 5px;
+      margin-top: 5px;
+      border: 2px solid silver;
+      border-radius: 4px;
+      width: 200px;
+      box-shadow: 0px 0px 5px rgb(47, 255, 252);
+      // padding: 2px;
+      font-size: initial;
+
+      &:hover {
+        box-shadow: 0px 0px 15px rgb(210, 255, 47);
+      }
+    }
+
+    button {
+      width: 200px;
+      margin-bottom: 5px;
+      margin-top: 10px;
+      // padding: 2px;
+      border: 2px solid grey;
+      border-radius: 4px;
+      background: rgb(52, 115, 223);
+      color: rgb(255, 255, 255);
+      text-align: center;
+    }
+
+    .error {
+      font-size: 13px;
+      text-align: center;
+      text-shadow: 1px 1px 2px red;
+    }
+  }
+
+  @media only screen and (max-width: 320px) {
+    .book-form {
+      width: 100%;
+      padding: 8px;
+    }
+    button,
+    input {
+      width: 100%;
+      padding: 5px 8px;
+    }
+    .image-div img {
+      width: 200px;
+      border-radius: 100px;
+    }
+  }
+}

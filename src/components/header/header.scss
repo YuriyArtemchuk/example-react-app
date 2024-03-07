@@ -1,0 +1,97 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  ul {
+    list-style-type: none;
+    overflow: hidden;
+  }
+
+  .nav-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid grey;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px grey;
+  }
+
+  .navbar-brand {
+    font-size: 15px;
+  }
+  .nav-block {
+    display: flex;
+    align-items: center;
+
+    li input {
+      margin: 0px 10px 0px 10px;
+    }
+  }
+  li h3 {
+    font-size: 15px;
+    margin-top: 10px;
+  }
+  input {
+    border: 1px solid grey;
+    border-radius: 4px;
+  }
+  // input:hover {
+  //   transform: scale(1.02, 1.02);
+  //   border: 2px solid grey;
+  //   border-radius: 4px;
+  // }
+  .line-nav {
+    opacity: 0;
+  }
+
+  li a:hover {
+    color: red;
+    font-weight: 500;
+    transform: scale(1.05, 1.05);
+  }
+
+  button a:hover {
+    color: white;
+  }
+
+  i a.active {
+    background-color: white;
+    font-style: bold;
+  }
+
+  .searchLabel {
+    color: grey;
+    text-shadow: 0.5px 0.5px 1px grey;
+    &:hover {
+      transform: scale(1.03, 1.03);
+      color: rgb(86, 82, 82);
+      font-weight: 500;
+    }
+  }
+
+  @media screen and (max-width: 1199px) {
+    .nav-container {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    .nav-block li h3 {
+      font-size: 12px;
+      margin-top: 10px;
+    }
+    .nav-block li {
+      font-size: 12px;
+    }
+  }
+
+  @media screen and (max-width: 576px) {
+  }
+}

@@ -1,0 +1,28 @@
+.not-found-page {
+  display: flex;
+  justify-content: center;
+  min-height: 60vh;
+  align-items: center;
+  color: red;
+  text-align: center;
+
+  .not-found-box {
+    width: 400px;
+    height: 200px;
+    border: 1px solid silver;
+    border-radius: 15px;
+    background: whitesmoke;
+    box-shadow: 0px 0px 15px rgb(47, 255, 252);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      box-shadow: 0px 0px 15px rgb(220, 255, 47);
+    }
+  }
+
+  .not-found-title {
+    letter-spacing: 2px;
+  }
+}

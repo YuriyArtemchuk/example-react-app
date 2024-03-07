@@ -1,0 +1,16 @@
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  flex: 1;
+}
+main {
+  flex: 2;
+  min-height: 50vh;
+}
+
+footer {
+  flex: 0;
+}
