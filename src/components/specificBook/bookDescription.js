@@ -3,12 +3,9 @@ import { useBooks } from "../context/useBooks";
 
 const BookDescription = () => {
   const { pageID } = useParams();
-  console.log(pageID);
-
-  const { books, filterValue } = useBooks();
-
+  const { books } = useBooks();
   const book = books.find((item) => item.id === parseInt(pageID));
-  console.log(book);
+
   return (
     <section className="grid3">
       <div className="product-details">

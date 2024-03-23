@@ -7,6 +7,8 @@ body {
 .catalog-content {
   display: flex;
   flex-wrap: wrap;
+  flex-grow: 1;
+  min-height: 100vh;
 
   @keyframes border-light {
     0% {
@@ -57,12 +59,15 @@ body {
   .product-catalog {
     flex: 75%;
     order: 2;
+    display: flex;
+    flex-direction: column;
 
     .product-container {
       display: flex;
       flex-wrap: wrap;
       position: relative;
       padding: 0px 10px 10px;
+      min-height: 100vh;
     }
 
     .single-product {
@@ -164,9 +169,10 @@ body {
 
     .message-menu {
       // display: block;
-      color: rgb(238, 96, 45);
+      color: rgb(127, 122, 138);
       letter-spacing: 2px;
       margin-bottom: 5px;
+      text-shadow: 0.3px 0.3px 0.5px rgb(15, 15, 218);
     }
 
     button {
@@ -182,9 +188,16 @@ body {
 
     .bi-x-circle,
     .btn-default {
-      color: red;
+      color: rgb(241, 140, 140);
       text-align: left;
       margin-left: 0px;
+      text-shadow: 0.2px 0.2px 0.5px red;
+    }
+
+    .filter-item {
+      font-size: 0.8em;
+      color: red;
+      text-shadow: none;
     }
   }
 

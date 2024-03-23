@@ -6,7 +6,8 @@ const NotFoundPage = () => {
       <div className="not-found-box">
         <h5 className="not-found-title">
           Oops, something went wrong.
-          <br /> 404 error
+          <div class="break"></div>
+          404 error
         </h5>
       </div>
     </div>

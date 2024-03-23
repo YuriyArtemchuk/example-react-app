@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useBooks } from "../context/useBooks";
-import MainCartElement from "./mainCartElement";
+import MainCartElement from "./MainCartElement";
 import "./cart.scss";
 
 const Cart = () => {

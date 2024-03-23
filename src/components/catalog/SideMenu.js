@@ -2,33 +2,23 @@ import { useState, useEffect } from "react";
 import { useBooks } from "../context/useBooks";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-const SideMenu = () => {
-  const { books, setMenuBooks } = useBooks();
+const SideMenu = ({ handlePriceRange }) => {
+  const { books, setMenuBooks, priceRange, setPriceRange, setFiltersChanged } =
+    useBooks();
   const [menuValue, setMenuValue] = useState();
-  const [removeFilters, setRemoveFilters] = useState("none");
   //
   const handleMenuChange = (value) => {
     setMenuValue(value);
-    setRemoveFilters("block");
+    setFiltersChanged(true);
   };
-  useEffect(() => {
-    if (!menuValue) {
-      setRemoveFilters("none");
-    }
-  });
   //
   useEffect(() => {
-    editMenuLevel(menuValue);
-  }, [menuValue]);
-  //
-  const editMenuLevel = (value) => {
     const editList = books.filter(
-      (item) => value === item.level || item.tags.includes(value)
+      (item) => menuValue === item.level || item.tags.includes(menuValue)
     );
     setMenuBooks(editList);
-    console.log(editList);
-  };
-
+  }, [menuValue]);
+  //
   const tagsListWithDuplicate = books.reduce(
     (acc, item) => acc.concat(item.tags),
     []
@@ -43,6 +33,8 @@ const SideMenu = () => {
   //
   const handleResetFilter = () => {
     setMenuValue("");
+    setPriceRange("All_price");
+    setFiltersChanged(true); // Transition on the first page after reset filters
   };
   //
   return (
@@ -53,16 +45,24 @@ const SideMenu = () => {
         <hr />
 
         <ul className="nav flex-column">
-          <div className="message-menu" style={{ display: removeFilters }}>
-            <li className="nav-item ">Filtered: {menuValue}</li>
-            <button
-              type="button"
-              class="btn btn-default btn-sm"
-              onClick={handleResetFilter}
-            >
-              <i class="bi bi-x-circle"></i> Remove all filters
-            </button>
-          </div>
+          {menuValue || priceRange !== "All_price" ? (
+            <div className="message-menu">
+              <li className="nav-item ">
+                Filtered:
+                <div className="filter-item">{menuValue}</div>
+                <div className="filter-item">
+                  {priceRange !== "All_price" ? priceRange : null}
+                </div>
+              </li>
+              <button
+                type="button"
+                class="btn btn-default btn-sm"
+                onClick={handleResetFilter}
+              >
+                <i class="bi bi-x-circle"></i> Remove all filters
+              </button>
+            </div>
+          ) : null}
 
           <li className="nav-item category-name">
             <span>Level</span>
@@ -102,7 +102,7 @@ const SideMenu = () => {
             <ul>
               {tagsList.map((tag) => {
                 return (
-                  <li className="nav-item">
+                  <li key={tag.id} className="nav-item">
                     <button
                       className="nav-link"
                       onClick={() => handleMenuChange(tag)}
@@ -115,6 +115,43 @@ const SideMenu = () => {
             </ul>
           </li>
           <hr />
+          <li className="nav-item category-name">
+            <span>Price range in USD:</span>
+            <ul>
+              <li className="nav-item">
+                <button
+                  className="nav-link"
+                  onClick={() => handlePriceRange("All_price")}
+                >
+                  All_price
+                </button>
+              </li>
+              <li className="nav-item">
+                <button
+                  className="nav-link"
+                  onClick={() => handlePriceRange("0-15")}
+                >
+                  0 - 15
+                </button>
+              </li>
+              <li className="nav-item">
+                <button
+                  className="nav-link"
+                  onClick={() => handlePriceRange("15-30")}
+                >
+                  15 - 30
+                </button>
+              </li>
+              <li className="nav-item">
+                <button
+                  className="nav-link"
+                  onClick={() => handlePriceRange("30+")}
+                >
+                  More then 30
+                </button>
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
     </aside>

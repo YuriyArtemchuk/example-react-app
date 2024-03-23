@@ -6,8 +6,15 @@ const Footer = () => {
     <div className="container-footer">
       <hr />
       <p className="footer-title">
-        Made in <Link to="https://prometheus.org.ua/">Prometheus</Link> by Yuriy
-        Artemchuk (c) 2024
+        Made in{" "}
+        <Link
+          to="https://prometheus.org.ua/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Prometheus
+        </Link>{" "}
+        by Yuriy Artemchuk (c) 2024
       </p>
     </div>
   );

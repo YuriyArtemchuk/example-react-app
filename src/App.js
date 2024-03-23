@@ -1,25 +1,17 @@
-// import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { LocalStorageService, LS_KEYS } from "./services/localStorage";
+import { LocalStorageService, LS_KEYS } from "./services/LocalStorage";
 import RequireAuth from "./hooks/RequireAuth";
-import Layout from "./routes/layout";
-import Cart from "./components/cart/cart";
+import Layout from "./routes/Layout";
+import Cart from "./components/cart/Cart";
 import "bootstrap/dist/css/bootstrap.min.css";
-import SignIn from "./components/signin/signin";
-import Catalog from "./components/catalog/catalog";
-import SpecificBook from "./components/specificBook/specificBook";
+import SignIn from "./components/signin/Signin";
+import Catalog from "./components/catalog/Catalog";
+import SpecificBook from "./components/specificBook/SpecificBook";
 import { BooksProvider } from "./components/context/useBooks";
 import AuthProvider from "./hooks/AuthProvider";
-import NotFoundPage from "./components/notFoundPage/notFoundPage";
-import Main from "./components/main/main";
-// import {
-//   useQuery,
-//   QueryClient,
-//   QueryClientProvider,
-// } from "@tanstack/react-query";
-
-// const queryClient = new QueryClient();
+import NotFoundPage from "./components/notFoundPage/NotFoundPage";
+import Main from "./components/main/Main";
 
 function App() {
   const [books, setBooks] = useState(
@@ -31,6 +23,7 @@ function App() {
   const [filterValue, setFilterValue] = useState();
   const [priceRange, setPriceRange] = useState("All_price");
   const [menuBooks, setMenuBooks] = useState([]);
+  const [filtersChanged, setFiltersChanged] = useState(false);
 
   useEffect(() => LocalStorageService.set(LS_KEYS.BOOKS, books), [books]);
   useEffect(
@@ -51,30 +44,8 @@ function App() {
       });
   }, []);
 
-  // const fetchBooks = () => {
-  //   fetch("./books.json")
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       return setBooks(data.books);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data", error);
-  //     });
-  // };
-
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["books"],
-  //   queryFn: fetchBooks,
-  // });
-
-  // console.log(data);
-  // console.log(books);
-
   return (
     <AuthProvider>
-      {/* <QueryClientProvider client={queryClient}> */}
       <BooksProvider
         value={{
           books,
@@ -87,15 +58,13 @@ function App() {
           setCartBooks,
           menuBooks,
           setMenuBooks,
+          filtersChanged,
+          setFiltersChanged,
         }}
       >
-        {/* <BrowserRouter> */}
-        {/* It's a HashRouter */}
         <Router>
-          {/* It's a HashRouter */}
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route path="/" element={<Main />} />
               <Route
                 path="/cart"
                 element={
@@ -117,12 +86,8 @@ function App() {
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
-          {/* It's a HashRouter */}
         </Router>
-        {/* It's a HashRouter */}
-        {/* </BrowserRouter> */}
       </BooksProvider>
-      {/* </QueryClientProvider> */}
     </AuthProvider>
   );
 }

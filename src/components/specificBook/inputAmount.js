@@ -1,19 +1,28 @@
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const InputAmount = ({ book, onQuantityChange }) => {
   const [bookQuantity, setBookQuantity] = useState(1);
 
   const totalPrice = bookQuantity * book.price;
-
+  //
+  const notify = (whichOne) => {
+    if (whichOne) {
+      toast.error(
+        "Кількість заказаного товару не може рівнятися чи бути меньшим за нуль"
+      );
+    } else {
+      toast.error("Перевищена кількісна можливість замовлення даного товару");
+    }
+  };
+  //
   const handlerChangingQuantity = (event) => {
     const newQuantity = parseInt(event.target.value);
     if (newQuantity <= 0) {
-      alert(
-        "Кількість заказаного товару не може рівнятися чи бути меньшим за нуль"
-      );
+      notify(true);
       setBookQuantity(1);
     } else if (newQuantity > book.amount) {
-      alert("Перевищена кількісна можливість замовлення даного товару");
+      notify(false);
       setBookQuantity(book.amount);
     } else {
       setBookQuantity(newQuantity);
@@ -22,11 +31,23 @@ const InputAmount = ({ book, onQuantityChange }) => {
   };
   return (
     <>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          error: {
+            style: {
+              background: "pink",
+              color: "red",
+            },
+          },
+        }}
+      />
       <div className="price-item">
         <label className="price-item-2 number" htmlFor="qty-products">
           Quantity:
         </label>
-        <br />
+        <div class="break"></div>
         <input
           id="qty-products"
           type="number"
@@ -41,7 +62,7 @@ const InputAmount = ({ book, onQuantityChange }) => {
           <span id="total-price" data-testid="total-price">
             {totalPrice.toFixed(2)}
           </span>
-          UAH
+          USD
         </h5>
       </div>
     </>

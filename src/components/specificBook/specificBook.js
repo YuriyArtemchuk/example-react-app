@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./specificBook.scss";
-import BookPhoto from "./bookPhoto";
-import BookAmount from "./bookAmount";
-import BookDescription from "./bookDescription";
+import BookPhoto from "./BookPhoto";
+import BookAmount from "./BookAmount";
+import BookDescription from "./BookDescription";
 import { useBooks } from "../context/useBooks";
 
 const SpecificBook = () => {
   const { pageID } = useParams();
-
   const { books } = useBooks();
   const [book, setBook] = useState(null);
 
@@ -25,7 +24,7 @@ const SpecificBook = () => {
 
   if (book) {
     return (
-      <section class="specific-product">
+      <section className="specific-product">
         <BookPhoto />
         <BookAmount />
         <BookDescription />

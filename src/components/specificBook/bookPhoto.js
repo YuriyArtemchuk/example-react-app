@@ -4,7 +4,6 @@ import defaulBooktImage from "../../images/defaulBooktImage.png";
 
 const BookPhoto = () => {
   const { pageID } = useParams();
-
   const { books } = useBooks();
   const book = books.find((item) => item.id === parseInt(pageID));
   //

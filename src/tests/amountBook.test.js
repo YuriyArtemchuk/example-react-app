@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import InputAmount from "../components/specificBook/inputAmount";
+import InputAmount from "../components/specificBook/InputAmount";
 
 describe("Test123 of increasing and decreasing book quantity", () => {
   test("Increasing amount of book after click on the increasing button", () => {

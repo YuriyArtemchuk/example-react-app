@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { LocalStorageService, LS_KEYS } from "../../services/localStorage";
+import toast, { Toaster } from "react-hot-toast";
+import { LocalStorageService, LS_KEYS } from "../../services/LocalStorage";
 import { useBooks } from "../context/useBooks";
 import defaulBooktImage from "../../images/defaulBooktImage.png";
 
@@ -10,7 +11,7 @@ const MainCartElement = () => {
   const [purchase, setPurchase] = useState([]);
   const [disabledButton, setDisabledButton] = useState(false);
   const [colorButton, setButtonColor] = useState("btn-success");
-  //
+
   // Встановлення checkbox за замовчуванням на true
   useEffect(() => {
     const initialCheckedBooks = {};
@@ -25,16 +26,24 @@ const MainCartElement = () => {
   }, [cartBooks, checkedBooks]);
 
   //
+  const notify = (whichOne) => {
+    let message = "";
+    if (whichOne) {
+      message =
+        "Кількість заказаного товару не може рівнятися чи бути меньшим за нуль";
+    } else {
+      message = "Перевищена кількісна можливість замовлення даного товару";
+    }
+    toast.error(message);
+  };
+  //
   const handlerChangingAmount = ({ target: { value } }, bookId) => {
     const bookForEditAmount = cartBooks.find((item) => item.id === bookId);
-
     if (value < 1) {
-      alert(
-        "Кількість заказаного товару не може рівнятися чи бути меньшим за нуль"
-      );
+      notify(true);
       bookForEditAmount.cartAmount = 1;
     } else if (value > bookForEditAmount.amount) {
-      alert("Перевищена кількісна можливість замовлення даного товару");
+      notify(false);
       bookForEditAmount.cartAmount = bookForEditAmount.amount;
     } else {
       bookForEditAmount.cartAmount = value;
@@ -69,15 +78,26 @@ const MainCartElement = () => {
     setCheckedBooks(updatedCheckedBooks);
   };
   //
-  const handlePurchaseSubmit = () => {
+  const handlePurchaseSubmit = (event) => {
+    event.preventDefault();
     const order = cartBooks.filter((item) => checkedBooks[item.id]);
     // Create new property order with show total sum of purchase
     order.purchaseAmount = totalSum();
     setPurchase(order);
     remainingBooksInCatalog();
     setCartBooks([]);
-    alert(
-      `Our congratulation!!! You've just made an order on total sum ${order.purchaseAmount} USD!!`
+    const message = `Our congratulation!!! You've just made an order on total sum ${order.purchaseAmount} USD!!`;
+    toast.promise(
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 1000);
+      }),
+      {
+        loading: "Processing...",
+        success: message,
+        error: "Error processing order!",
+      }
     );
   };
   //
@@ -99,7 +119,6 @@ const MainCartElement = () => {
     LocalStorageService.set(LS_KEYS.BOOKS, books);
   }, [books]);
   //
-  console.log(books);
   const changeDisabilityButton = () => {
     let values = Object.values(checkedBooks);
     let newValues = values.filter((item) => item === true);
@@ -116,6 +135,24 @@ const MainCartElement = () => {
   //
   return (
     <>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          closeOnClick: true,
+          error: {
+            style: {
+              background: "pink",
+              color: "red",
+            },
+          },
+          success: {
+            style: {
+              color: "green",
+            },
+          },
+        }}
+      />
       <div className="cart-box">
         <table>
           <thead>

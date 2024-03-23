@@ -44,6 +44,10 @@ $easing: ease;
   justify-content: center;
   text-align: center;
   margin: 40px 0px;
+  align-self: flex-end;
+  margin-top: 100px;
+
+  //
 
   .pagination {
     display: inline-block;
@@ -73,6 +77,8 @@ $easing: ease;
     letter-spacing: 0.1em;
     line-height: 60px;
     text-decoration: none;
+    border: none;
+    border-radius: 20px;
 
     &:hover,
     &.current {
@@ -98,10 +104,8 @@ $easing: ease;
 
       &:nth-of-type(2) {
         position: relative;
-        padding-right: 50px;
 
         &::after {
-          content: "...";
           position: absolute;
           font-size: 25px;
           top: 0;

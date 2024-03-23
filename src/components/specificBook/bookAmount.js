@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import { useBooks } from "../context/useBooks";
 import { useState } from "react";
-import InputAmount from "./inputAmount";
+import InputAmount from "./InputAmount";
 
 const BookAmount = () => {
   const { pageID } = useParams();
@@ -16,21 +17,47 @@ const BookAmount = () => {
 
   const handleAddToCart = () => {
     const existBook = cartBooks.find((item) => item.id === book.id);
+    const notify = (title, isError) => {
+      if (isError) {
+        toast.error(`The book "${title}" is already exist in cart!`);
+      } else {
+        toast.success(`Book "${title}" added to cart`);
+      }
+    };
     if (existBook) {
-      alert(`The book "${book.title}" is already exist in cart!`);
+      // alert(`The book "${book.title}" is already exist in cart!`);
+      notify(existBook.title, true);
     } else if (book) {
       book.cartAmount = bookQuantity;
       setCartBooks((prevCartBooks) => [...prevCartBooks, book]);
-      alert(`Book "${book.title}" added to cart`);
+      notify(book.title, false);
+      // alert(`Book "${book.title}" added to cart`);
     }
   };
 
   return (
     <section className="grid2">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          error: {
+            style: {
+              background: "pink",
+              color: "red",
+            },
+          },
+          success: {
+            style: {
+              color: "green",
+            },
+          },
+        }}
+      />
       <div className="product-price">
         <div className="price-item">
           <h5>
-            Price: <span id="book-price">{book.price}</span> UAH
+            Price: <span id="book-price">{book.price}</span> USD
           </h5>
         </div>
         <InputAmount book={book} onQuantityChange={ChangingQuantity} />

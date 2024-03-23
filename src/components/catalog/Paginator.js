@@ -1,38 +1,49 @@
 import "./paginator.scss";
 
-const Paginator = () => {
+const Paginator = ({
+  totalBooks,
+  booksPerPage,
+  setCurrentPage,
+  currentPage,
+}) => {
+  let pages = [];
+  for (let i = 1; i <= Math.ceil(totalBooks / booksPerPage); i++) {
+    pages.push(i);
+  }
+
+  const nextPage = () => {
+    if (currentPage < Math.ceil(totalBooks / booksPerPage))
+      setCurrentPage((prev) => prev + 1);
+  };
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
   return (
     <div className="container-fluid justify-content-center">
       <div className="pagination-wrapper">
         <div className="pagination">
-          <a className="prev page-numbers" href="javascript:void(0)">
+          <button className="prev page-numbers" onClick={prevPage}>
             prev
-          </a>
-          <span aria-current="page" className="page-numbers current">
-            1
-          </span>
-          <a className="page-numbers" href="javascript:void(0)">
-            2
-          </a>
-          <a className="page-numbers" href="javascript:void(0)">
-            3
-          </a>
-          <a className="page-numbers" href="javascript:void(0)">
-            4
-          </a>
-          <a className="page-numbers" href="javascript:void(0)">
-            5
-          </a>
-          <a className="page-numbers" href="javascript:void(0)">
-            6
-          </a>
-          <a className="page-numbers" href="javascript:void(0)">
-            7
-          </a>
+          </button>
+          {pages.map((page, index) => {
+            return (
+              <button
+                key={index}
+                className={`page-numbers ${
+                  page === currentPage ? "current" : ""
+                }`}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            );
+          })}
 
-          <a className="next page-numbers" href="javascript:void(0)">
+          <button className="next page-numbers" onClick={nextPage}>
             next
-          </a>
+          </button>
         </div>
       </div>
     </div>

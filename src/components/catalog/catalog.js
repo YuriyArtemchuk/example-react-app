@@ -1,40 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useBooks } from "../context/useBooks";
 import "./catalog.scss";
-import SingleProduct from "./singleProduct";
-import SortMenu from "./sortMenu";
+import SingleProduct from "./SingleProduct";
+import SortMenu from "./SortMenu";
 import SideMenu from "./SideMenu";
 import Paginator from "./Paginator";
 import defaulBooktImage from "../../images/defaulBooktImage.png";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-
-// react-query
-// const fetchBooks = async () => {
-//   const response = await axios.get("/books.json");
-//   return response.data.books;
-// };
 
 const Catalog = () => {
-  // react-query
-  // const queryClient = useQueryClient();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [booksPerPage] = useState(8);
+  const {
+    books,
+    filterValue,
+    menuBooks,
+    priceRange,
+    setPriceRange,
+    filtersChanged,
+    setFiltersChanged,
+  } = useBooks();
 
-  const { books, filterValue, menuBooks, priceRange, setBooks, setPriceRange } =
-    useBooks();
-
-  //react-query
-  // const { filterValue, menuBooks, priceRange, setPriceRange } = useBooks();
-  //
   const handlePriceRange = (value) => {
     setPriceRange(value);
+    setFiltersChanged(true);
   };
-  //react-query
-  // const { data: books, isLoading } = useQuery({
-  //   queryKey: ["books"],
-  //   queryFn: fetchBooks,
-  // });
-
-  console.log(books);
 
   const filterByTitle = (book) =>
     !filterValue ||
@@ -49,7 +38,8 @@ const Catalog = () => {
     } else if (priceRange === "30+") {
       return book.price > 30;
     }
-    return true; // Если цена не выбрана, не применять фильтр по цене
+
+    return true;
   };
   //
   const filterByMenu = (book) =>
@@ -61,54 +51,22 @@ const Catalog = () => {
   const finalFilteredBooks = books.filter(
     (book) => filterByTitle(book) && filterByPrice(book) && filterByMenu(book)
   );
+  // Pagination
+  const lastBookIndex = currentPage * booksPerPage;
+  const firstBookPage = lastBookIndex - booksPerPage;
+  const currentListBooks = finalFilteredBooks.slice(
+    firstBookPage,
+    lastBookIndex
+  );
 
+  // Transition on the first page after any filter changing
+  useEffect(() => {
+    if (filtersChanged) {
+      setCurrentPage(1);
+      setFiltersChanged(false); // Resetting filter state
+    }
+  }, [filtersChanged]);
   //
-  // // filter by title from header
-  // let filteredBooks = books;
-  // if (filterValue && filterValue.trim() !== "") {
-  //   filteredBooks = books.filter((book) =>
-  //     book.title.toLowerCase().includes(filterValue.toLowerCase())
-  //   );
-  // }
-  //
-
-  // // filter by price
-  // let filteredBooks2 = books;
-  // if (priceRange === "0-15") {
-  //   filteredBooks2 = books.filter(({ price }) => price > 0 && price < 15);
-  // } else if (priceRange === "15-30") {
-  //   filteredBooks2 = books.filter(({ price }) => price > 15 && price < 30);
-  // } else if (priceRange === "30+") {
-  //   filteredBooks2 = books.filter(({ price }) => price > 30);
-  // }
-
-  // // filter by title and price together
-  // let finalFilteredBooks = [];
-  // if (filteredBooks && filteredBooks2) {
-  //   console.log("filter");
-  //   if (filteredBooks.length > filteredBooks2.length) {
-  //     finalFilteredBooks = filteredBooks.filter((book1) =>
-  //       filteredBooks2.some((book2) => book1.id === book2.id)
-  //     );
-  //   } else {
-  //     finalFilteredBooks = filteredBooks2.filter((book2) =>
-  //       filteredBooks.some((book1) => book2.id === book1.id)
-  //     );
-  //   }
-  // } else if (filteredBooks && !filteredBooks2) {
-  //   finalFilteredBooks = filteredBooks;
-  // } else if (!filteredBooks && filteredBooks2) {
-  //   finalFilteredBooks = filteredBooks2;
-  // } else if (menuBooks) {
-  //   console.log("menuBooks");
-  //   finalFilteredBooks = menuBooks;
-  // }
-
-  // filter by side menu
-  // if (menuBooks) {
-  //   console.log(menuBooks);
-  //   finalFilteredBooks = menuBooks;
-  // }
 
   const checkedImage = (image) => (image ? image : defaulBooktImage);
   //
@@ -121,7 +79,7 @@ const Catalog = () => {
           className="row product-container justify-content-start"
           id="catalog"
         >
-          {finalFilteredBooks.map((book) => (
+          {currentListBooks.map((book) => (
             <SingleProduct
               id={book.id}
               key={book.id}
@@ -132,9 +90,17 @@ const Catalog = () => {
             />
           ))}
         </div>
-        <Paginator />
+        <Paginator
+          totalBooks={finalFilteredBooks.length}
+          booksPerPage={booksPerPage}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
       </section>
-      <SideMenu />
+      <SideMenu
+        handlePriceRange={handlePriceRange}
+        setFiltersChanged={setFiltersChanged}
+      />
     </section>
   );
 };

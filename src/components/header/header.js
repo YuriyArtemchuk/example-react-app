@@ -1,22 +1,30 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import cn from "classnames";
 import useAuth from "../../hooks/useAuth";
 import { useBooks } from "../context/useBooks";
-import favicon from "../../images/favicon.ico";
 import cart from "../../images/cart.svg";
 import "./header.scss";
 
 const Header = () => {
   const { user, signOut } = useAuth();
+  const {
+    filterValue,
+    setFilterValue,
+    cartBooks,
+    setCartBooks,
+    setFiltersChanged,
+  } = useBooks();
   const navigate = useNavigate();
-  const handleSignOut = () =>
-    signOut(() => navigate("/signin"), { replace: true });
+  const handleSignOut = () => {
+    setCartBooks([]);
 
-  const { filterValue, setFilterValue, cartBooks, setCartBooks } = useBooks();
+    signOut(() => navigate("/signin"), { replace: true });
+  };
 
   const handleFilterValue = ({ target: { value } }) => {
-    console.log(value);
     setFilterValue(value);
+    setFiltersChanged(true);
   };
 
   return (
@@ -26,15 +34,7 @@ const Header = () => {
         <nav className="navbar">
           <ul className="nav-block">
             <li>
-              <Link to="/" className="navbar-brand">
-                {/* X-course task / Yurii Artemchuk */}
-                {/* <img
-                  style={{ marginTop: -5 }}
-                  src={favicon}
-                  alt="site logo"
-                  width="70px"
-                /> */}
-              </Link>
+              <Link to="/" className="navbar-brand"></Link>
             </li>
             <li>
               <h3>
@@ -43,17 +43,9 @@ const Header = () => {
                 </Link>
               </h3>
             </li>
-            <li className="nav-item">
-              <Link to="/">Main</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/about">About</Link>
-            </li>
+
             <li className="nav-item">
               <Link to="/catalog">Catalog</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/contact">Contact</Link>
             </li>
           </ul>
         </nav>
@@ -91,17 +83,21 @@ const Header = () => {
                 {cartBooks.length > 0 ? cartBooks.length : "Cart"}
               </Link>
             </li>
-            <li className="nav-item nav-rignt">
-              <Link to="/signin">Sign in</Link>
-            </li>
-            <li className="nav-item nav-rignt">
-              <button
-                className="btn btn-outline-secondary btn-sm"
-                onClick={handleSignOut}
-              >
-                <Link to="/">Sign out</Link>
-              </button>
-            </li>
+            {(!user && (
+              <li className="nav-item nav-rignt">
+                <Link to="/signin">Sign in</Link>
+              </li>
+            )) || (
+              <li className="nav-item nav-rignt">
+                <button
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={handleSignOut}
+                >
+                  <Link to="/">Sign out</Link>
+                </button>
+              </li>
+            )}
+
             <li className="nav-item nav-rignt">
               <Link to="#">
                 {user ? `Hello ${user.login}!` : "Hello user!"}
