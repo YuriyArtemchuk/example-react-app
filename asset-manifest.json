@@ -1,19 +1,18 @@
 {
   "files": {
-    "main.css": "/example-react-app/static/css/main.360d023a.css",
-    "main.js": "/example-react-app/static/js/main.82abaf2e.js",
+    "main.css": "/example-react-app/static/css/main.a8a8b79b.css",
+    "main.js": "/example-react-app/static/js/main.493da06a.js",
     "static/media/bootstrap-icons.woff?": "/example-react-app/static/media/bootstrap-icons.39795c0b4513de014cf8.woff",
-    "static/media/favicon.ico": "/example-react-app/static/media/favicon.f449fb2f783ac0b34edd.ico",
     "static/media/bootstrap-icons.woff2?": "/example-react-app/static/media/bootstrap-icons.b7bcc075b395c14ce8c2.woff2",
     "static/media/defaulBooktImage.png": "/example-react-app/static/media/defaulBooktImage.fc05ac5ddb6611dfc031.png",
     "static/media/avatar.png": "/example-react-app/static/media/avatar.0d14c6999b4a5c8e86a7.png",
     "static/media/cart.svg": "/example-react-app/static/media/cart.5a1c3c755c07e59db7d65be6bc8d8bfb.svg",
     "index.html": "/example-react-app/index.html",
-    "main.360d023a.css.map": "/example-react-app/static/css/main.360d023a.css.map",
-    "main.82abaf2e.js.map": "/example-react-app/static/js/main.82abaf2e.js.map"
+    "main.a8a8b79b.css.map": "/example-react-app/static/css/main.a8a8b79b.css.map",
+    "main.493da06a.js.map": "/example-react-app/static/js/main.493da06a.js.map"
   },
   "entrypoints": [
-    "static/css/main.360d023a.css",
-    "static/js/main.82abaf2e.js"
+    "static/css/main.a8a8b79b.css",
+    "static/js/main.493da06a.js"
   ]
 }
